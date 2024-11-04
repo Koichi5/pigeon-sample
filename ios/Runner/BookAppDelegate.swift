@@ -9,7 +9,7 @@ import Flutter
 import WatchConnectivity
 import UIKit
 
-//@main
+@main
 @objc class BookAppDelegate: FlutterAppDelegate {
     var flutterEngine: FlutterEngine?
     
@@ -36,22 +36,24 @@ import UIKit
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func fetchBooks() {
+    func fetchBooks(completion: @escaping ([Book]) -> Void) {
         guard let flutterEngine = flutterEngine else {
             print("Flutter Engine is not available.")
+            completion([])
             return
         }
         
         DispatchQueue.main.async {
             let api = BookFlutterApi(binaryMessenger: flutterEngine.binaryMessenger)
-            api.fetchBooks() { result in
+            api.fetchBooks { result in
                 switch result {
                 case .success(let books):
                     print("Successfully fetched books from Flutter.")
-                    // 取得した本のリストを処理
-                    self.handleFetchedBooks(books)
+                    print("Fetched Books: \(books)")
+                    completion(books)
                 case .failure(let error):
                     print("Error calling Flutter fetchBooks method: \(error.localizedDescription)")
+                    completion([])
                 }
             }
         }
@@ -95,25 +97,10 @@ import UIKit
         }
     }
     
-    // 取得した本のリストを処理するメソッド
-    func handleFetchedBooks(_ books: [Book]) {
-        // 例: 本のデータをwatchOSアプリに送信
-        let booksData = books.map { book -> [String: Any] in
-            return [
-                "id": book.id ?? "",
-                "title": book.title,
-                "publisher": book.publisher,
-                "imageUrl": book.imageUrl,
-                "lastModified": book.lastModified
-            ]
-        }
-        WCSessionManager.shared.sendBooksToWatch(booksData: booksData)
-    }
-    
-    
-    func fetchRecords() {
+    func fetchRecords(completion: @escaping ([Record]) -> Void) {
         guard let flutterEngine = flutterEngine else {
             print("Flutter Engine is not available.")
+            completion([])
             return
         }
         
@@ -123,10 +110,11 @@ import UIKit
                 switch result {
                 case .success(let records):
                     print("Successfully fetched records from Flutter.")
-                    // 取得した記録のリストを処理
-                    self.handleFetchedRecords(records)
+                    print("Fetched Records: \(records)")
+                    completion(records)
                 case .failure(let error):
                     print("Error calling Flutter fetchRecords method: \(error.localizedDescription)")
+                    completion([])
                 }
             }
         }
@@ -141,9 +129,10 @@ import UIKit
         DispatchQueue.main.async {
             let api = BookFlutterApi(binaryMessenger: flutterEngine.binaryMessenger)
             api.addRecord(record: record) { result in
+                print("Record in addRecord(iOS): \(record)")
                 switch result {
                 case .success():
-                    print("Successfully called Flutter addBook method.")
+                    print("Successfully called Flutter addRecord method.")
                 case .failure(let error):
                     print("Error calling Flutter addBook method: \(error.localizedDescription)")
                 }
@@ -167,39 +156,6 @@ import UIKit
                     print("Error calling Flutter deleteBook method: \(error.localizedDescription)")
                 }
             }
-        }
-    }
-    
-    // 取得した記録のリストを処理するメソッド
-    func handleFetchedRecords(_ records: [Record]) {
-        // 例: 記録のデータをwatchOSアプリに送信
-        let recordsData = records.map { record -> [String: Any] in
-            let book = record.book
-            let bookData: [String: Any] = [
-                "id": book.id ?? "",
-                "title": book.title,
-                "publisher": book.publisher,
-                "imageUrl": book.imageUrl,
-                "lastModified": book.lastModified
-            ]
-            
-            return [
-                "id": record.id ?? "",
-                "book": bookData,
-                "seconds": record.seconds,
-                "createdAt": record.createdAt,
-                "lastModified": record.lastModified
-            ]
-        }
-        
-        let message: [String: Any] = ["action": "fetchedRecords", "records": recordsData]
-        
-        if WCSession.default.isReachable {
-            WCSession.default.sendMessage(message, replyHandler: nil) { error in
-                print("Error sending records to watchOS: \(error.localizedDescription)")
-            }
-        } else {
-            print("WCSession is not reachable.")
         }
     }
 }

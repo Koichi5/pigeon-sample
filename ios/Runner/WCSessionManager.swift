@@ -19,7 +19,6 @@ class WCSessionManager: NSObject, WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         print("Received application context: \(applicationContext)")
-        // 既存の処理
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
@@ -47,7 +46,7 @@ class WCSessionManager: NSObject, WCSessionDelegate {
         }
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         if let action = message["action"] as? String {
             switch action {
             case "addBook":
@@ -64,7 +63,8 @@ class WCSessionManager: NSObject, WCSessionDelegate {
                         lastModified: Int64(lastModified)
                     ))
                 }
-                
+                replyHandler(["reply" : "OK"])
+
             case "deleteBook":
                 let id = message["id"] as? String ?? "None"
                 let title = message["title"] as? String ?? "None"
@@ -80,26 +80,53 @@ class WCSessionManager: NSObject, WCSessionDelegate {
                         lastModified: Int64(lastModified)
                     ))
                 }
-                
+                replyHandler(["reply" : "OK"])
+
             case "fetchBooks":
-                print("iOS: Received fetchedBooks action")
+                print("iOS: Received fetchBooks action")
                 DispatchQueue.main.async {
-                    (UIApplication.shared.delegate as? BookAppDelegate)?.fetchBooks()
+                    // Flutter側のメソッドを呼び出し、非同期的にデータを取得
+                    (UIApplication.shared.delegate as? BookAppDelegate)?.fetchBooks { books in
+                        // データ取得後にreplyHandlerで結果を返す
+                        let booksData = books.map { book in
+                            return [
+                                "id": book.id ?? "",
+                                "title": book.title,
+                                "publisher": book.publisher,
+                                "imageUrl": book.imageUrl,
+                                "lastModified": book.lastModified
+                            ]
+                        }
+                        replyHandler(["books": booksData])
+                    }
                 }
-                
+
             case "addRecord":
-                let book = message["book"] as? Book ?? Book(title: "title", publisher: "publisher", imageUrl: "imageUrl", lastModified: 0)
-                let seconds = message["seconds"] as? Int ?? 0
-                let createdAt = message["createdAt"] as? Int ?? 0
-                let lastModified = message["lastModified"] as? Int ?? 0
-                DispatchQueue.main.async {
-                    (UIApplication.shared.delegate as? BookAppDelegate)?.addRecord(record: Record(
-                        book: book,
-                        seconds: Int64(seconds),
-                        createdAt: Int64(createdAt),
-                        lastModified: Int64(lastModified)
-                    ))
+                if let bookDict = message["book"] as? [String: Any] {
+                    let book = Book(
+                        id: bookDict["id"] as? String ?? "",
+                        title: bookDict["title"] as? String ?? "",
+                        publisher: bookDict["publisher"] as? String ?? "",
+                        imageUrl: bookDict["imageUrl"] as? String ?? "",
+                        lastModified: bookDict["lastModified"] as? Int64 ?? 0
+                    )
+                    let seconds = message["seconds"] as? Int ?? 0
+                    let createdAt = message["createdAt"] as? Int ?? 0
+                    let lastModified = message["lastModified"] as? Int ?? 0
+                    DispatchQueue.main.async {
+                        (UIApplication.shared.delegate as? BookAppDelegate)?.addRecord(record: Record(
+                            book: book,
+                            seconds: Int64(seconds),
+                            createdAt: Int64(createdAt),
+                            lastModified: Int64(lastModified)
+                        ))
+                        replyHandler(["status": "success"])
+                    }
+                } else {
+                    print("Error: Invalid book data")
+                    replyHandler(["status": "failure", "error": "Invalid book data"])
                 }
+
             case "deleteRecord":
                 let book = message["book"] as? Book ?? Book(id: "id", title: "title", publisher: "publisher", imageUrl: "imageUrl", lastModified: 0)
                 let seconds = message["seconds"] as? Int ?? 0
@@ -113,29 +140,46 @@ class WCSessionManager: NSObject, WCSessionDelegate {
                         lastModified: Int64(lastModified)
                     ))
                 }
+                replyHandler(["reply" : "OK"])
                 
             case "fetchRecords":
                 print("iOS: Received fetchRecords action")
                 DispatchQueue.main.async {
-                    (UIApplication.shared.delegate as? BookAppDelegate)?.fetchRecords()
+                    (UIApplication.shared.delegate as? BookAppDelegate)?.fetchRecords() { records in
+                        let recordsData = records.map { record in
+                            return [
+                                "id": record.id ?? "",
+                                "book": [
+                                    "id": record.book.id ?? "",
+                                    "title": record.book.title,
+                                    "publisher": record.book.publisher,
+                                    "imageUrl": record.book.imageUrl,
+                                    "lastModified": record.book.lastModified
+                                ],
+                                "seconds": record.seconds,
+                                "createdAt": record.createdAt,
+                                "lastModified": record.lastModified
+                            ]
+                        }
+                        replyHandler(["records": recordsData])
+                    }
                 }
             default:
                 print("Unknown action: \(message)")
+                replyHandler(["reply" : "OK"])
             }
         }
     }
     
     func sendBooksToWatch(booksData: [[String: Any]]) {
         let message: [String: Any] = ["action": "fetchedBooks", "books": booksData]
-        if session.activationState == .activated {
-            do {
-                try session.updateApplicationContext(message)
-                print("Sent books data using updateApplicationContext.")
-            } catch {
-                print("Error updating application context: \(error.localizedDescription)")
+        if session.isReachable {
+            session.sendMessage(message, replyHandler: nil) { error in
+                print("Error sending books data: \(error.localizedDescription)")
             }
+            print("Sent books data using sendMessage.")
         } else {
-            print("WCSession is not activated yet.")
+            print("WCSession is not reachable.")
         }
     }
 }

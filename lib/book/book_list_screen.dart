@@ -4,9 +4,16 @@ import 'package:pigeon_sample/book/book.g.dart';
 import 'package:pigeon_sample/book/book_add_screen.dart';
 import 'package:pigeon_sample/book/book_detail_screen.dart';
 import 'package:pigeon_sample/book/book_flutter_api_impl.dart';
+import 'package:pigeon_sample/book/count.dart';
+import 'package:pigeon_sample/book/count_screen.dart';
 
 final bookApiProvider = Provider<BookFlutterApiImpl>((ref) {
   return BookFlutterApiImpl();
+});
+
+final booksFutureProvider = FutureProvider<List<Book>>((ref) async {
+  final bookApi = ref.watch(bookApiProvider);
+  return await bookApi.fetchBooks();
 });
 
 class BookListPage extends HookConsumerWidget {
@@ -14,15 +21,15 @@ class BookListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bookApi = ref.watch(bookApiProvider);
-
-    // データを取得するための FutureProvider
-    final booksFutureProvider = FutureProvider<List<Book>>((ref) async {
-      return await bookApi.fetchBooks();
-    });
-
     final booksAsyncValue = ref.watch(booksFutureProvider);
-
+    ref.listen(countProvider, ((prev, next) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CountScreen(),
+        ),
+      );
+    }));
     return Scaffold(
       appBar: AppBar(
         title: const Text('本の一覧'),
@@ -53,7 +60,6 @@ class BookListPage extends HookConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // 本の追加画面へ遷移
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const BookAddPage()),

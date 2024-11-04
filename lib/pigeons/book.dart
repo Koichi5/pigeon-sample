@@ -50,4 +50,6 @@ abstract class BookFlutterApi {
   List<Record> fetchRecords();
   void addRecord(Record record);
   void deleteRecord(Record record);
+  void startTimer(int? count);
+  void stopTimer();
 }

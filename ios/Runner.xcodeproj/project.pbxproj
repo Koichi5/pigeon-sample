@@ -13,11 +13,13 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		6A89730FA3E3990E46F1D0E8 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3239E267D47EA429B449DCF /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
+		8A072E192CD776AC00B90993 /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A072E182CD776AA00B90993 /* BookDetailView.swift */; };
 		8A09EF8C2CC56A6800975634 /* Todo.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A09EF8B2CC56A6700975634 /* Todo.g.swift */; };
 		8A09EF8E2CC56B6800975634 /* TodoAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A09EF8D2CC56B6500975634 /* TodoAppDelegate.swift */; };
 		8A09EF902CC5721300975634 /* TodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A09EF8F2CC5721100975634 /* TodoView.swift */; };
 		8A1BD05C2CC8056F0080AAEE /* TodoWatchSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1BD05B2CC805650080AAEE /* TodoWatchSessionDelegate.swift */; };
 		8A1BD05E2CC805970080AAEE /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1BD05D2CC805960080AAEE /* Todo.swift */; };
+		8A920A102CD88E41009E5845 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A920A0F2CD88E3E009E5845 /* HomeTabView.swift */; };
 		8AA38B902CC8D4AB005C18A4 /* BatteryAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA38B8F2CC8D4A1005C18A4 /* BatteryAppDelegate.swift */; };
 		8AC1D40D2CC4FA490016AFC6 /* Battery.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC1D40C2CC4FA460016AFC6 /* Battery.g.swift */; };
 		8AC1D40F2CC4FA790016AFC6 /* BatteryHostApiImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC1D40E2CC4FA780016AFC6 /* BatteryHostApiImpl.swift */; };
@@ -38,7 +40,7 @@
 		8ADC52E42CC6A3CC0001A4DF /* BookAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52E32CC6A3C80001A4DF /* BookAppDelegate.swift */; };
 		8ADC52E62CC6A4BD0001A4DF /* Book.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52E52CC6A4BC0001A4DF /* Book.g.swift */; };
 		8ADC52E82CC6B7780001A4DF /* BookListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52E72CC6B7750001A4DF /* BookListView.swift */; };
-		8ADC52EA2CC6B78B0001A4DF /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52E92CC6B77F0001A4DF /* RecordView.swift */; };
+		8ADC52EA2CC6B78B0001A4DF /* RecordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52E92CC6B77F0001A4DF /* RecordListView.swift */; };
 		8ADC52EC2CC778E20001A4DF /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52EB2CC778DF0001A4DF /* Book.swift */; };
 		8ADC52EE2CC779FF0001A4DF /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52ED2CC779FF0001A4DF /* WCSessionManager.swift */; };
 		8ADC52F02CC7806D0001A4DF /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC52EF2CC7806B0001A4DF /* WCSessionManager.swift */; };
@@ -118,11 +120,13 @@
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		8A072E182CD776AA00B90993 /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
 		8A09EF8B2CC56A6700975634 /* Todo.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.g.swift; sourceTree = "<group>"; };
 		8A09EF8D2CC56B6500975634 /* TodoAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppDelegate.swift; sourceTree = "<group>"; };
 		8A09EF8F2CC5721100975634 /* TodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoView.swift; sourceTree = "<group>"; };
 		8A1BD05B2CC805650080AAEE /* TodoWatchSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoWatchSessionDelegate.swift; sourceTree = "<group>"; };
 		8A1BD05D2CC805960080AAEE /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		8A920A0F2CD88E3E009E5845 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		8AA38B8F2CC8D4A1005C18A4 /* BatteryAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryAppDelegate.swift; sourceTree = "<group>"; };
 		8AC1D40C2CC4FA460016AFC6 /* Battery.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.g.swift; sourceTree = "<group>"; };
 		8AC1D40E2CC4FA780016AFC6 /* BatteryHostApiImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryHostApiImpl.swift; sourceTree = "<group>"; };
@@ -145,7 +149,7 @@
 		8ADC52E32CC6A3C80001A4DF /* BookAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookAppDelegate.swift; sourceTree = "<group>"; };
 		8ADC52E52CC6A4BC0001A4DF /* Book.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.g.swift; sourceTree = "<group>"; };
 		8ADC52E72CC6B7750001A4DF /* BookListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListView.swift; sourceTree = "<group>"; };
-		8ADC52E92CC6B77F0001A4DF /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
+		8ADC52E92CC6B77F0001A4DF /* RecordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListView.swift; sourceTree = "<group>"; };
 		8ADC52EB2CC778DF0001A4DF /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		8ADC52ED2CC779FF0001A4DF /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
 		8ADC52EF2CC7806B0001A4DF /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
@@ -283,13 +287,15 @@
 			children = (
 				8AC9BA7C2CC51ED5007629B5 /* Preview Content */,
 				8AC9BA7D2CC51ED5007629B5 /* Assets.xcassets */,
+				8A920A0F2CD88E3E009E5845 /* HomeTabView.swift */,
 				8A1BD05B2CC805650080AAEE /* TodoWatchSessionDelegate.swift */,
 				8ADC52ED2CC779FF0001A4DF /* WCSessionManager.swift */,
 				8ADC52EB2CC778DF0001A4DF /* Book.swift */,
 				8A1BD05D2CC805960080AAEE /* Todo.swift */,
 				8ADC52F12CC782A10001A4DF /* Record.swift */,
-				8ADC52E92CC6B77F0001A4DF /* RecordView.swift */,
+				8ADC52E92CC6B77F0001A4DF /* RecordListView.swift */,
 				8ADC52E72CC6B7750001A4DF /* BookListView.swift */,
+				8A072E182CD776AA00B90993 /* BookDetailView.swift */,
 				8A09EF8F2CC5721100975634 /* TodoView.swift */,
 				8AC9BA7E2CC51ED5007629B5 /* ContentView.swift */,
 				8AC9BA7F2CC51ED5007629B5 /* MyWatchApp.swift */,
@@ -699,14 +705,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A09EF902CC5721300975634 /* TodoView.swift in Sources */,
-				8ADC52EA2CC6B78B0001A4DF /* RecordView.swift in Sources */,
+				8ADC52EA2CC6B78B0001A4DF /* RecordListView.swift in Sources */,
 				8ADC52EC2CC778E20001A4DF /* Book.swift in Sources */,
 				8AC9BA812CC51ED5007629B5 /* ContentView.swift in Sources */,
+				8A072E192CD776AC00B90993 /* BookDetailView.swift in Sources */,
 				8AC9BA822CC51ED5007629B5 /* MyWatchApp.swift in Sources */,
 				8A1BD05C2CC8056F0080AAEE /* TodoWatchSessionDelegate.swift in Sources */,
 				8ADC52E82CC6B7780001A4DF /* BookListView.swift in Sources */,
 				8ADC52F22CC782A30001A4DF /* Record.swift in Sources */,
 				8ADC52EE2CC779FF0001A4DF /* WCSessionManager.swift in Sources */,
+				8A920A102CD88E41009E5845 /* HomeTabView.swift in Sources */,
 				8A1BD05E2CC805970080AAEE /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -147,6 +147,10 @@ abstract class BookFlutterApi {
 
   void deleteRecord(Record record);
 
+  void startTimer(int? count);
+
+  void stopTimer();
+
   static void setUp(BookFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
@@ -278,6 +282,48 @@ abstract class BookFlutterApi {
               'Argument for dev.flutter.pigeon.pigeon_sample.BookFlutterApi.deleteRecord was null, expected non-null Record.');
           try {
             api.deleteRecord(arg_record!);
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.pigeon_sample.BookFlutterApi.startTimer$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.pigeon_sample.BookFlutterApi.startTimer was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_count = (args[0] as int?);
+          try {
+            api.startTimer(arg_count);
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.pigeon_sample.BookFlutterApi.stopTimer$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            api.stopTimer();
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

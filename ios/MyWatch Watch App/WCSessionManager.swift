@@ -34,9 +34,19 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         print("request books fired")
         if session.isReachable {
             let message = ["action": "fetchBooks"]
-            session.sendMessage(message, replyHandler: nil) { error in
+            session.sendMessage(message, replyHandler: { response in
+                if let booksData = response["books"] as? [[String: Any]] {
+                    let receivedBooks = booksData.compactMap { Book(dictionary: $0) }
+                    DispatchQueue.main.async {
+                        self.books = receivedBooks
+                        print("Updated books: \(self.books)")
+                    }
+                } else {
+                    print("No books found in response.")
+                }
+            }, errorHandler: { error in
                 print("Error requesting books: \(error.localizedDescription)")
-            }
+            })
         } else {
             print("WCSession is not reachable.")
         }
@@ -46,16 +56,74 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         print("request records fired")
         if session.isReachable {
             let message = ["action": "fetchRecords"]
-            session.sendMessage(message, replyHandler: nil) { error in
+            session.sendMessage(message, replyHandler: { response in
+                if let recordsData = response["records"] as? [[String: Any]] {
+                    print("recordsData: \(recordsData)")
+                    let receivedRecords = recordsData.compactMap { Record(dictionary: $0) }
+                    DispatchQueue.main.async {
+                        self.records = receivedRecords
+                        print("Updated records: \(self.records)")
+                    }
+                } else {
+                    print("No records found in response")
+                }
+            }, errorHandler: { error in
                 print("Error requesting records: \(error.localizedDescription)")
-            }
+            })
         } else {
             print("WCSession is not reachable.")
         }
     }
     
-    // MARK: - WCSessionDelegate メソッド
+    func incrementTimer(count: Int) {
+        print("increment timer fired")
+        if session.isReachable {
+            let message: [String: Any] = [
+                "action": "incrementTimer",
+                "count": count
+            ]
+            session.sendMessage(message, replyHandler: { response in
+                if let countData = response["count"] as? Int {
+                    print("count: \(countData)")
+                } else {
+                    print("No count found in response")
+                }
+            }, errorHandler: { error in
+                print("Error requesting records: \(error.localizedDescription)")
+            })
+        } else {
+            print("WCSession is not reachable.")
+        }
+    }
     
+    func addRecord(book: Book, seconds: Int) {
+        print("add record fired")
+        print("add record book: \(book)")
+        if session.isReachable {
+            let message: [String: Any] = [
+                "action": "addRecord",
+                "book": [
+                    "id": book.id,
+                    "title": book.title,
+                    "publisher": book.publisher,
+                    "imageUrl": book.imageUrl,
+                    "lastModified": book.lastModified
+                ],
+                "seconds": seconds,
+                "createdAt": Int(Date().timeIntervalSince1970),
+                "lastModified": Int(Date().timeIntervalSince1970)
+            ]
+            
+            session.sendMessage(message, replyHandler: { response in
+                // iOS 側から保存の完了状態を受け取る
+                if let status = response["status"] as? [[String: Any]] {
+                    print(status)
+                }
+            })
+        }
+    }
+    
+    // MARK: - WCSessionDelegate メソッド
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
             print("WCSession activation failed: \(error.localizedDescription)")
@@ -66,6 +134,7 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
     
     // message を使用
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        // requestBooks を watchOS から実行 → iOS が検知して Flutter 側の処理を実行 → 取得した本のデータを watchOS 側に送信 → ここで受け取る
         DispatchQueue.main.async {
             if let action = message["action"] as? String {
                 switch action {

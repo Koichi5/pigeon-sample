@@ -11,7 +11,6 @@ import Foundation
   #error("Unsupported platform.")
 #endif
 
-
 private func createConnectionError(withChannelName channelName: String) -> PigeonError {
   return PigeonError(code: "channel-error", message: "Unable to establish connection on channel: '\(channelName)'.", details: "")
 }
@@ -148,6 +147,8 @@ protocol BookFlutterApiProtocol {
   func fetchRecords(completion: @escaping (Result<[Record], PigeonError>) -> Void)
   func addRecord(record recordArg: Record, completion: @escaping (Result<Void, PigeonError>) -> Void)
   func deleteRecord(record recordArg: Record, completion: @escaping (Result<Void, PigeonError>) -> Void)
+  func startTimer(count countArg: Int64?, completion: @escaping (Result<Void, PigeonError>) -> Void)
+  func stopTimer(completion: @escaping (Result<Void, PigeonError>) -> Void)
 }
 class BookFlutterApi: BookFlutterApiProtocol {
   private let binaryMessenger: FlutterBinaryMessenger
@@ -259,6 +260,42 @@ class BookFlutterApi: BookFlutterApiProtocol {
     let channelName: String = "dev.flutter.pigeon.pigeon_sample.BookFlutterApi.deleteRecord\(messageChannelSuffix)"
     let channel = FlutterBasicMessageChannel(name: channelName, binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([recordArg] as [Any?]) { response in
+      guard let listResponse = response as? [Any?] else {
+        completion(.failure(createConnectionError(withChannelName: channelName)))
+        return
+      }
+      if listResponse.count > 1 {
+        let code: String = listResponse[0] as! String
+        let message: String? = nilOrValue(listResponse[1])
+        let details: String? = nilOrValue(listResponse[2])
+        completion(.failure(PigeonError(code: code, message: message, details: details)))
+      } else {
+        completion(.success(Void()))
+      }
+    }
+  }
+  func startTimer(count countArg: Int64?, completion: @escaping (Result<Void, PigeonError>) -> Void) {
+    let channelName: String = "dev.flutter.pigeon.pigeon_sample.BookFlutterApi.startTimer\(messageChannelSuffix)"
+    let channel = FlutterBasicMessageChannel(name: channelName, binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([countArg] as [Any?]) { response in
+      guard let listResponse = response as? [Any?] else {
+        completion(.failure(createConnectionError(withChannelName: channelName)))
+        return
+      }
+      if listResponse.count > 1 {
+        let code: String = listResponse[0] as! String
+        let message: String? = nilOrValue(listResponse[1])
+        let details: String? = nilOrValue(listResponse[2])
+        completion(.failure(PigeonError(code: code, message: message, details: details)))
+      } else {
+        completion(.success(Void()))
+      }
+    }
+  }
+  func stopTimer(completion: @escaping (Result<Void, PigeonError>) -> Void) {
+    let channelName: String = "dev.flutter.pigeon.pigeon_sample.BookFlutterApi.stopTimer\(messageChannelSuffix)"
+    let channel = FlutterBasicMessageChannel(name: channelName, binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage(nil) { response in
       guard let listResponse = response as? [Any?] else {
         completion(.failure(createConnectionError(withChannelName: channelName)))
         return

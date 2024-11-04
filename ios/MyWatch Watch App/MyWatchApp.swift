@@ -11,7 +11,7 @@ import SwiftUI
 struct MyWatch_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            TodoListView()
+            HomeTabView()
         }
     }
 }

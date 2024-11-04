@@ -1,7 +1,7 @@
 import Flutter
 import UIKit
 
-@main
+//@main
 @objc class AppDelegate: FlutterAppDelegate {
     var flutterEngine: FlutterEngine?
 

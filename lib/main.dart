@@ -18,14 +18,14 @@ Future<void> main() async {
   );
 
   // BatteryFlutterApiの実装をセットアップ
-  BatteryFlutterApi.setUp(BatteryFlutterApiImpl());
+  // BatteryFlutterApi.setUp(BatteryFlutterApiImpl());
   // SaveDataFlutterApi.setUp(SaveDataFlutterApiImpl());
 
   // Todo
   // TodoFlutterApi.setUp(TodoFlutterApiImpl());
 
   // Book, Record
-  // BookFlutterApi.setUp(BookFlutterApiImpl());
+  BookFlutterApi.setUp(BookFlutterApiImpl());
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const BatteryScreen()
+      home: const BookListPage()
     );
   }
 }

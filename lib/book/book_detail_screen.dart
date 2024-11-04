@@ -4,6 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pigeon_sample/book/book.g.dart';
 import 'package:pigeon_sample/book/book_list_screen.dart';
 
+// 記録の取得
+final recordsFutureProvider = FutureProvider<List<Record>>((ref) async {
+  final bookApi = ref.watch(bookApiProvider);
+
+  final allRecords = await bookApi.fetchRecords();
+  // 該当する本の記録のみフィルタリング
+  return allRecords;
+});
+
 class BookDetailPage extends HookConsumerWidget {
   final Book book;
 
@@ -52,13 +61,6 @@ class BookDetailPage extends HookConsumerWidget {
       stopwatch.reset();
       elapsedSeconds.value = 0;
     }
-
-    // 記録の取得
-    final recordsFutureProvider = FutureProvider<List<Record>>((ref) async {
-      final allRecords = await bookApi.fetchRecords();
-      // 該当する本の記録のみフィルタリング
-      return allRecords.where((record) => record.book.id == book.id).toList();
-    });
 
     final recordsAsyncValue = ref.watch(recordsFutureProvider);
 
