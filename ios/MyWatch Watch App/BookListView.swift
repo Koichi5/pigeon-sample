@@ -14,7 +14,7 @@ struct BookListView: View {
         NavigationStack {
             if (sessionManager.books.isEmpty) {
                 Button(action: {
-                    sessionManager.requestBooks()
+                    sessionManager.fetchBooks()
                 }, label: {
                     Image(systemName: "arrow.trianglehead.clockwise")
                 })
@@ -26,7 +26,7 @@ struct BookListView: View {
             }
             .refreshable {
                 print("refresh books fired")
-                sessionManager.requestBooks()
+                sessionManager.fetchBooks()
             }
             .navigationTitle("Books")
         }

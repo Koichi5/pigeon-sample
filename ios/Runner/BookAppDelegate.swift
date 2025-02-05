@@ -158,4 +158,23 @@ import UIKit
             }
         }
     }
+    
+//    func startTimer(count: Int64) {
+//        guard let flutterEngine = flutterEngine else {
+//            print("Flutter Engine is not available.")
+//            return
+//        }
+//        
+//        DispatchQueue.main.async {
+//            let api = BookFlutterApi(binaryMessenger: flutterEngine.binaryMessenger)
+//            api.startTimer(count: count) { result in
+//                switch result {
+//                case .success():
+//                    print("Successfully called Flutter startTimer method.")
+//                case .failure(let error):
+//                    print("Error calling Flutter startTimer method: \(error.localizedDescription)")
+//                }
+//            }
+//        }
+//    }
 }

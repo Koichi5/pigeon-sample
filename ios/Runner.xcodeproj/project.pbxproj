@@ -21,6 +21,7 @@
 		8A1BD05E2CC805970080AAEE /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1BD05D2CC805960080AAEE /* Todo.swift */; };
 		8A920A102CD88E41009E5845 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A920A0F2CD88E3E009E5845 /* HomeTabView.swift */; };
 		8AA38B902CC8D4AB005C18A4 /* BatteryAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA38B8F2CC8D4A1005C18A4 /* BatteryAppDelegate.swift */; };
+		8AB596452D04208F008D7C36 /* Preference.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB596442D04208F008D7C36 /* Preference.g.swift */; };
 		8AC1D40D2CC4FA490016AFC6 /* Battery.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC1D40C2CC4FA460016AFC6 /* Battery.g.swift */; };
 		8AC1D40F2CC4FA790016AFC6 /* BatteryHostApiImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC1D40E2CC4FA780016AFC6 /* BatteryHostApiImpl.swift */; };
 		8AC1D4162CC500760016AFC6 /* Text.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC1D4152CC500740016AFC6 /* Text.g.swift */; };
@@ -128,6 +129,7 @@
 		8A1BD05D2CC805960080AAEE /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		8A920A0F2CD88E3E009E5845 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		8AA38B8F2CC8D4A1005C18A4 /* BatteryAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryAppDelegate.swift; sourceTree = "<group>"; };
+		8AB596442D04208F008D7C36 /* Preference.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preference.g.swift; sourceTree = "<group>"; };
 		8AC1D40C2CC4FA460016AFC6 /* Battery.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.g.swift; sourceTree = "<group>"; };
 		8AC1D40E2CC4FA780016AFC6 /* BatteryHostApiImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryHostApiImpl.swift; sourceTree = "<group>"; };
 		8AC1D4152CC500740016AFC6 /* Text.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.g.swift; sourceTree = "<group>"; };
@@ -235,6 +237,14 @@
 				8A09EF8B2CC56A6700975634 /* Todo.g.swift */,
 			);
 			path = Todo;
+			sourceTree = "<group>";
+		};
+		8AB596432D042084008D7C36 /* Preference */ = {
+			isa = PBXGroup;
+			children = (
+				8AB596442D04208F008D7C36 /* Preference.g.swift */,
+			);
+			path = Preference;
 			sourceTree = "<group>";
 		};
 		8AC1D40B2CC4FA310016AFC6 /* Battery */ = {
@@ -362,6 +372,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				8AB596432D042084008D7C36 /* Preference */,
 				8AC666662CC63F5B00DF5A27 /* Book */,
 				8A09EF8A2CC56A2B00975634 /* Todo */,
 				8AC1D41F2CC508090016AFC6 /* FlutterCommunication */,
@@ -633,7 +644,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
 		42E26A998BDB8CDE38257DA6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -750,6 +761,7 @@
 				8ADC52F02CC7806D0001A4DF /* WCSessionManager.swift in Sources */,
 				8ADC52E42CC6A3CC0001A4DF /* BookAppDelegate.swift in Sources */,
 				8AC1D40D2CC4FA490016AFC6 /* Battery.g.swift in Sources */,
+				8AB596452D04208F008D7C36 /* Preference.g.swift in Sources */,
 				8AA38B902CC8D4AB005C18A4 /* BatteryAppDelegate.swift in Sources */,
 				8AC1D4182CC500980016AFC6 /* TextApi.swift in Sources */,
 				8AC1D4212CC508350016AFC6 /* FlutterCommunication.g.swift in Sources */,
@@ -866,6 +878,7 @@
 				DEVELOPMENT_TEAM = 4246JCVBMJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1355,6 +1368,7 @@
 				DEVELOPMENT_TEAM = 4246JCVBMJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1378,6 +1392,7 @@
 				DEVELOPMENT_TEAM = 4246JCVBMJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

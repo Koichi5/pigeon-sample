@@ -14,7 +14,7 @@ struct RecordListView: View {
         NavigationStack {
             if(sessionManager.records.isEmpty) {
                 Button(action: {
-                    sessionManager.requestRecords()
+                    sessionManager.fetchRecords()
                 }, label: {
                     Image(systemName: "arrow.trianglehead.clockwise")
                 })
@@ -24,7 +24,7 @@ struct RecordListView: View {
             }
             .refreshable {
                 print("refresh records fired")
-                sessionManager.requestRecords()
+                sessionManager.fetchRecords()
             }
             .navigationTitle("Record")
         }

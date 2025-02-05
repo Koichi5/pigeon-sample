@@ -1,15 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pigeon_sample/battery/battery.g.dart';
-import 'package:pigeon_sample/battery/battery_flutter_api_impl.dart';
-import 'package:pigeon_sample/battery/battery_screen.dart';
 import 'package:pigeon_sample/book/book.g.dart';
 import 'package:pigeon_sample/book/book_flutter_api_impl.dart';
-import 'package:pigeon_sample/book/book_list_screen.dart';
+import 'package:pigeon_sample/book/screens/tab_screen.dart';
 import 'package:pigeon_sample/firebase_options.dart';
-import 'package:pigeon_sample/todo/todo.g.dart';
-import 'package:pigeon_sample/todo/todo_flutter_api_impl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const BookListPage()
+      home: const TabScreen()
     );
   }
 }

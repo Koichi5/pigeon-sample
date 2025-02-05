@@ -30,8 +30,8 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    func requestBooks() {
-        print("request books fired")
+    func fetchBooks() {
+        print("fetch books fired")
         if session.isReachable {
             let message = ["action": "fetchBooks"]
             session.sendMessage(message, replyHandler: { response in
@@ -52,8 +52,8 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    func requestRecords() {
-        print("request records fired")
+    func fetchRecords() {
+        print("fetch records fired")
         if session.isReachable {
             let message = ["action": "fetchRecords"]
             session.sendMessage(message, replyHandler: { response in
@@ -75,26 +75,26 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    func incrementTimer(count: Int) {
-        print("increment timer fired")
-        if session.isReachable {
-            let message: [String: Any] = [
-                "action": "incrementTimer",
-                "count": count
-            ]
-            session.sendMessage(message, replyHandler: { response in
-                if let countData = response["count"] as? Int {
-                    print("count: \(countData)")
-                } else {
-                    print("No count found in response")
-                }
-            }, errorHandler: { error in
-                print("Error requesting records: \(error.localizedDescription)")
-            })
-        } else {
-            print("WCSession is not reachable.")
-        }
-    }
+//    func startTimer(count: Int) {
+//        print("start timer fired")
+//        if session.isReachable {
+//            let message: [String: Any] = [
+//                "action": "startTimer",
+//                "count": count
+//            ]
+//            session.sendMessage(message, replyHandler: { response in
+//                if let countData = response["count"] as? Int {
+//                    print("count: \(countData)")
+//                } else {
+//                    print("No count found in response")
+//                }
+//            }, errorHandler: { error in
+//                print("Error requesting records: \(error.localizedDescription)")
+//            })
+//        } else {
+//            print("WCSession is not reachable.")
+//        }
+//    }
     
     func addRecord(book: Book, seconds: Int) {
         print("add record fired")
@@ -115,7 +115,6 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
             ]
             
             session.sendMessage(message, replyHandler: { response in
-                // iOS 側から保存の完了状態を受け取る
                 if let status = response["status"] as? [[String: Any]] {
                     print(status)
                 }
@@ -123,7 +122,6 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    // MARK: - WCSessionDelegate メソッド
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
             print("WCSession activation failed: \(error.localizedDescription)")
@@ -132,54 +130,28 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    // message を使用
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        // requestBooks を watchOS から実行 → iOS が検知して Flutter 側の処理を実行 → 取得した本のデータを watchOS 側に送信 → ここで受け取る
-        DispatchQueue.main.async {
-            if let action = message["action"] as? String {
-                switch action {
-                case "fetchedBooks":
-                    print("watchOS: Received fetchedBooks action")
-                    if let booksData = message["books"] as? [[String: Any]] {
-                        let receivedBooks = booksData.compactMap { Book(dictionary: $0) }
-                        self.books = receivedBooks
-                        print("Updated books: \(self.books)")
-                    }
-                case "fetchedRecords":
-                    print("watchOS: Received fetchedRecords action")
-                    if let recordsData = message["records"] as? [[String: Any]] {
-                        let receivedRecords = recordsData.compactMap { Record(dictionary: $0) }
-                        self.records = receivedRecords
-                        print("Updated records: \(self.records)")
-                    }
-                default:
-                    break
-                }
-            }
-        }
-    }
-    
-    // applicationContext を使用
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        DispatchQueue.main.async {
-            if let action = applicationContext["action"] as? String {
-                switch action {
-                case "fetchedBooks":
-                    print("Received fetchedBooks action via applicationContext")
-                    if let booksData = applicationContext["books"] as? [[String: Any]] {
-                        let receivedBooks = booksData.compactMap { Book(dictionary: $0) }
-                        self.books = receivedBooks
-                        print("Updated books: \(self.books)")
-                    }
-                default:
-                    break
-                }
-            }
-        }
-    }
-    
-    // 他の必要なデリゲートメソッドを実装
-    func sessionReachabilityDidChange(_ session: WCSession) {
-        // セッションの到達可能性が変化したときの処理
-    }
+//    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+//        DispatchQueue.main.async {
+//            if let action = message["action"] as? String {
+//                switch action {
+//                case "fetchedBooks":
+//                    print("watchOS: Received fetchedBooks action")
+//                    if let booksData = message["books"] as? [[String: Any]] {
+//                        let receivedBooks = booksData.compactMap { Book(dictionary: $0) }
+//                        self.books = receivedBooks
+//                        print("Updated books: \(self.books)")
+//                    }
+//                case "fetchedRecords":
+//                    print("watchOS: Received fetchedRecords action")
+//                    if let recordsData = message["records"] as? [[String: Any]] {
+//                        let receivedRecords = recordsData.compactMap { Record(dictionary: $0) }
+//                        self.records = receivedRecords
+//                        print("Updated records: \(self.records)")
+//                    }
+//                default:
+//                    break
+//                }
+//            }
+//        }
+//    }
 }

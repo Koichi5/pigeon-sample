@@ -5,8 +5,6 @@
 //  Created by Koichi Kishimoto on 2024/10/22.
 //
 
-// watchOS アプリ側 - Book.swift
-
 import Foundation
 
 struct Book: Identifiable {

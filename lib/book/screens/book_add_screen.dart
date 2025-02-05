@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pigeon_sample/book/book.g.dart';
-import 'package:pigeon_sample/book/book_list_screen.dart';
+import 'package:pigeon_sample/book/book_flutter_api_impl.dart';
 
-class BookAddPage extends HookConsumerWidget {
-  const BookAddPage({Key? key}) : super(key: key);
+class BookAddScreen extends HookConsumerWidget {
+  const BookAddScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

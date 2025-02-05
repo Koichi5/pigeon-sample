@@ -9,6 +9,7 @@ import 'package:pigeon/pigeon.dart';
   swiftOut: 'ios/Runner/Book/Book.g.swift',
   swiftOptions: SwiftOptions(),
 ))
+
 class Book {
   Book({
     this.id,

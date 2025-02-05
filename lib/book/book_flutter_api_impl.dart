@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pigeon_sample/book/book.g.dart';
-import 'package:pigeon_sample/book/count.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'book_flutter_api_impl.g.dart';
@@ -110,37 +110,54 @@ class BookFlutterApiImpl extends BookFlutterApi {
   }
 }
 
-// Riverpod を使いたいから BookFlutterApiImpl を受け取る Service を実装し、count 関連の処理で Riverpod を使用
-@Riverpod(keepAlive: true)
-class BookFlutterApiService extends _$BookFlutterApiService {
-  Timer? _timer;
-  late final BookFlutterApiImpl _bookFlutterApiImpl;
-
-  @override
-  void build() {
-    _bookFlutterApiImpl = BookFlutterApiImpl();
-    BookFlutterApi.setUp(_bookFlutterApiImpl);
-  }
-
-  // BookFlutterApiAmpl のメソッドを委譲
-  Future<List<Book>> fetchBooks() => _bookFlutterApiImpl.fetchBooks();
-  void addBook(Book book) => _bookFlutterApiImpl.addBook(book);
-  void deleteBook(Book book) => _bookFlutterApiImpl.deleteBook(book);
-  Future<List<Record>> fetchRecords() => _bookFlutterApiImpl.fetchRecords();
-  void addRecord(Record record) => _bookFlutterApiImpl.addRecord(record);
-  void deleteRecord(Record record) => _bookFlutterApiImpl.deleteRecord(record);
-
-  // タイマー関連の実装
-  void startTimer() {
-    stopTimer();
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) => ref.read(countProvider.notifier).increase(),
-    );
-  }
-
-  void stopTimer() {
-    _timer?.cancel();
-    _timer = null;
-  }
+@riverpod
+BookFlutterApiImpl bookApi(Ref ref) {
+  return BookFlutterApiImpl();
 }
+
+@riverpod
+Future<List<Book>> books(Ref ref) async {
+  final bookApi = ref.read(bookApiProvider);
+  return await bookApi.fetchBooks();
+}
+
+@riverpod
+Future<List<Record>> records(Ref ref) async {
+  final bookApi = ref.read(bookApiProvider);
+  return await bookApi.fetchRecords();
+}
+
+// Riverpod を使いたいから BookFlutterApiImpl を受け取る Service を実装し、count 関連の処理で Riverpod を使用
+// @Riverpod(keepAlive: true)
+// class BookFlutterApiService extends _$BookFlutterApiService {
+//   Timer? _timer;
+//   late final BookFlutterApiImpl _bookFlutterApiImpl;
+
+//   @override
+//   void build() {
+//     _bookFlutterApiImpl = BookFlutterApiImpl();
+//     BookFlutterApi.setUp(_bookFlutterApiImpl);
+//   }
+
+//   // BookFlutterApiAmpl のメソッドを委譲
+//   Future<List<Book>> fetchBooks() => _bookFlutterApiImpl.fetchBooks();
+//   void addBook(Book book) => _bookFlutterApiImpl.addBook(book);
+//   void deleteBook(Book book) => _bookFlutterApiImpl.deleteBook(book);
+//   Future<List<Record>> fetchRecords() => _bookFlutterApiImpl.fetchRecords();
+//   void addRecord(Record record) => _bookFlutterApiImpl.addRecord(record);
+//   void deleteRecord(Record record) => _bookFlutterApiImpl.deleteRecord(record);
+
+//   // タイマー関連の実装
+//   void startTimer() {
+//     stopTimer();
+//     _timer = Timer.periodic(
+//       const Duration(seconds: 1),
+//       (_) => ref.read(countProvider.notifier).increase(),
+//     );
+//   }
+
+//   void stopTimer() {
+//     _timer?.cancel();
+//     _timer = null;
+//   }
+// }

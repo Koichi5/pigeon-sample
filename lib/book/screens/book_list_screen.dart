@@ -1,39 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pigeon_sample/book/book.g.dart';
-import 'package:pigeon_sample/book/book_add_screen.dart';
-import 'package:pigeon_sample/book/book_detail_screen.dart';
 import 'package:pigeon_sample/book/book_flutter_api_impl.dart';
-import 'package:pigeon_sample/book/count.dart';
-import 'package:pigeon_sample/book/count_screen.dart';
+import 'package:pigeon_sample/book/screens/book_add_screen.dart';
+import 'package:pigeon_sample/book/screens/book_detail_screen.dart';
 
-final bookApiProvider = Provider<BookFlutterApiImpl>((ref) {
-  return BookFlutterApiImpl();
-});
-
-final booksFutureProvider = FutureProvider<List<Book>>((ref) async {
-  final bookApi = ref.watch(bookApiProvider);
-  return await bookApi.fetchBooks();
-});
-
-class BookListPage extends HookConsumerWidget {
-  const BookListPage({super.key});
+class BookListScreen extends HookConsumerWidget {
+  const BookListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final booksAsyncValue = ref.watch(booksFutureProvider);
-    ref.listen(countProvider, ((prev, next) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CountScreen(),
-        ),
-      );
-    }));
+    final booksAsyncValue = ref.watch(booksProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('本の一覧'),
-      ),
       body: booksAsyncValue.when(
         data: (books) {
           return ListView.builder(
@@ -47,7 +24,7 @@ class BookListPage extends HookConsumerWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookDetailPage(book: book),
+                      builder: (context) => BookDetailScreen(book: book),
                     ),
                   );
                 },
@@ -62,7 +39,7 @@ class BookListPage extends HookConsumerWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const BookAddPage()),
+            MaterialPageRoute(builder: (context) => const BookAddScreen()),
           );
         },
         child: const Icon(Icons.add),
